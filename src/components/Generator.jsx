@@ -1,36 +1,33 @@
 import { useState } from "react";
+import IngredientInputs from "./IngredientInputs";
+import RecipeList from "./TarjetaRecetas";
+import { searchRecipeByIngredients } from "../lib/spoonacularService";
 
 export default function Generator(props) {
     const { user } = props;
-    const [promt, setPromt] = useState("");
     const [loading, setLoading] = useState(false);
-    const [generatedRecipe, setGeneratedRecipe] = useState(null);
+    const [ingredients, setIngredients] = useState([]);
+    const [recipes, setRecipes] = useState(null);
 
     const handleGenerate = async () => {
-        if (!promt.trim()) return;
+        let recetasObtenidas = [];
         setLoading(true);
-        setGeneratedRecipe(null);
-
-        setTimeout(() => {
-            setGeneratedRecipe({
-                title: "Receta generada: Pasta con Salsa de Tomate 🍝",
-                ingredients: [
-                    "200g de pasta",
-                    "2 tomates maduros",
-                    "1 diente de ajo",
-                    "Aceite de oliva",
-                    "Sal y pimienta al gusto",
-                ],
-                steps: [
-                    "Cocer la pasta al dente.",
-                    "Preparar la salsa con tomate, ajo y aceite.",
-                    "Mezclar la pasta con la salsa.",
-                    "Servir caliente y disfrutar.",
-                ],
-            });
-            setLoading(false);
-        }, 1800);
-        setPromt("");
+        setRecipes(null);
+        const recetas = await searchRecipeByIngredients(ingredients);
+        console.log(recetas);
+        recetas.forEach((y) => {
+            const receta = {
+                id: y.id,
+                title: y.title,
+                img: y.image,
+                ingf: y.missedIngredients,
+                ingUs: y.usedIngredients,
+            };
+            recetasObtenidas.push(receta);
+        });
+        setRecipes(recetasObtenidas);
+        setIngredients([]);
+        setLoading(false);
     };
 
     return (
@@ -44,11 +41,9 @@ export default function Generator(props) {
                 deliciosa. 🥗
             </p>
             <div className="w-full max-w-2xl bg-white rounded-2xl shadow p-6 dark:bg-gray-800">
-                <textarea
-                    value={promt}
-                    onChange={(e) => setPromt(e.target.value)}
-                    placeholder="Ejemplo: Quiero una cena rápida con pollo y arroz..."
-                    className="w-full h-32 p-3 rounded-lg border border-gray-300 dark:border-gray-700 bg-gray-50 dark:bg-gray-900 resize-none outline-none focus:ring-2 focus:ring-emerald-400 transition"
+                <IngredientInputs
+                    ingredients={ingredients}
+                    setIngredients={setIngredients}
                 />
                 <button
                     onClick={handleGenerate}
@@ -59,26 +54,7 @@ export default function Generator(props) {
                         : "🔍 Generar Receta con IA"}
                 </button>
             </div>
-            {generatedRecipe && (
-                <div className="w-full max-w-2xl bg-white rounded-2xl shadow p-6 mt-8 dark:bg-gray-800">
-                    <h3 className="text-2xl font-semibold mb-4 text-emerald-500">
-                        {generatedRecipe.title}
-                    </h3>
-                    <h4 className="font-medium mb-2">🥕 Ingredientes:</h4>
-                    <ul className="list-disc list-inside space-y-1 mb-4 text-gray-700 dark:text-gray-300">
-                        {generatedRecipe.ingredients.map((item, i) => (
-                            <li key={i}>{item}</li>
-                        ))}
-                    </ul>
-
-                    <h4 className="font-medium mb-2">👨‍🍳 Pasos:</h4>
-                    <ol className="list-disc list-inside space-y-1 mb-4 text-gray-700 dark:text-gray-300">
-                        {generatedRecipe.steps.map((step, i) => (
-                            <li key={i}>{step}</li>
-                        ))}
-                    </ol>
-                </div>
-            )}
+            <RecipeList recipes={recipes} />
         </main>
     );
 }

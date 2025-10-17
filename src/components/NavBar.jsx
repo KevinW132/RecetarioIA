@@ -18,7 +18,11 @@ export default function NavBar(props) {
     }, [darkMode]);
 
     return (
-        <header className="flex justify-between items-center p-6 border-b border-gray-300 dark:border-gray-700">
+        <header
+            className={`${
+                sideBar ? "ml-72" : "m-0"
+            } flex justify-between items-center p-6 border-b border-gray-300 dark:border-gray-700`}
+        >
             <div className="flex items-center gap-4">
                 <button
                     onClick={() => setSideBar(!sideBar)}

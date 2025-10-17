@@ -1,7 +1,7 @@
-const SPOONACULAR_API_KEY = import.meta.env.VITE_SPOONACULAR_API_KEY;
+const SPOONACULAR_API_KEY = import.meta.env.VITE_SPOONACULAR_KEY;
 const BASE = "https://api.spoonacular.com";
 
-export async function searchRecipeByIngredients(ingredients, number = 5) {
+export async function searchRecipeByIngredients(ingredients, number = 9) {
     const ing = ingredients.map((i) => i.trim()).join(",");
     const url = `${BASE}/recipes/findByIngredients?ingredients=${ing}&number=${number}&apiKey=${SPOONACULAR_API_KEY}`;
     const res = await fetch(url);

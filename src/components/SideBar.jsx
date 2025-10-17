@@ -18,11 +18,7 @@ export default function SideBar(props) {
         <aside
             className={`fixed top-0 left-0 h-dvh bg-white dark:bg-gray-800 border-r border-gray-300 dark:border-gray-700 
                 transition-all duration-300 ease-in-out z-40
-                ${
-                    sideBar
-                        ? "translate-x-0 w-72 relative"
-                        : "-translate-x-full w-72"
-                }
+                ${sideBar ? "translate-x-0 w-72" : "-translate-x-full w-72"}
             `}
         >
             <div className="flex flex-col h-dvh justify-between">
