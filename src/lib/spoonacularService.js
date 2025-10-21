@@ -1,3 +1,5 @@
+import { traductorAlIngles } from "./traductor";
+
 const SPOONACULAR_API_KEY = import.meta.env.VITE_SPOONACULAR_KEY;
 const BASE = "https://api.spoonacular.com";
 

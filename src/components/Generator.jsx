@@ -14,7 +14,6 @@ export default function Generator(props) {
         setLoading(true);
         setRecipes(null);
         const recetas = await searchRecipeByIngredients(ingredients);
-        console.log(recetas);
         recetas.forEach((y) => {
             const receta = {
                 id: y.id,

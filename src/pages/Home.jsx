@@ -6,7 +6,7 @@ import Generator from "../components/Generator";
 
 export default function Home() {
     const [user, setUser] = useState(null);
-    const [sideBar, setSideBar] = useState(true);
+    const [sideBar, setSideBar] = useState(false);
     useEffect(() => {
         const getUser = async () => {
             const { data } = await supabase.auth.getUser();
