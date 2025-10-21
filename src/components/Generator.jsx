@@ -4,7 +4,7 @@ import RecipeList from "./TarjetaRecetas";
 import { searchRecipeByIngredients } from "../lib/spoonacularService";
 
 export default function Generator(props) {
-    const { user } = props;
+    const { user, setSelectedId } = props;
     const [loading, setLoading] = useState(false);
     const [ingredients, setIngredients] = useState([]);
     const [recipes, setRecipes] = useState(null);
@@ -53,7 +53,7 @@ export default function Generator(props) {
                         : "🔍 Generar Receta con IA"}
                 </button>
             </div>
-            <RecipeList recipes={recipes} />
+            <RecipeList recipes={recipes} setSelectedId={setSelectedId} />
         </main>
     );
 }

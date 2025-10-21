@@ -2,7 +2,6 @@ import { BrowserRouter, Navigate, Route, Routes } from "react-router-dom";
 import Login from "./pages/Login";
 import Home from "./pages/Home";
 import { useAuth } from "./hooks/useAuth";
-import RecipeDetail from "./pages/RecipeDetail";
 
 export default function App() {
     const { user, loading } = useAuth();
@@ -19,7 +18,6 @@ export default function App() {
                     path="/"
                     element={user ? <Home /> : <Navigate to="/login" />}
                 />
-                <Route path="/recipe/:id" element={<RecipeDetail />} />
             </Routes>
         </BrowserRouter>
     );

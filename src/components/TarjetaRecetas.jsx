@@ -1,4 +1,5 @@
-export default function RecipeList({ recipes = [] }) {
+export default function RecipeList(props) {
+    const { recipes, setSelectedId } = props;
     if (recipes === null) {
         return (
             <div className="text-center text-gray-500 dark:text-gray-400 mt-10">
@@ -13,15 +14,25 @@ export default function RecipeList({ recipes = [] }) {
     return (
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 mt-8">
             {recipes.map((recipe) => (
-                <RecipeCard key={recipe.id} recipe={recipe} />
+                <RecipeCard
+                    key={recipe.id}
+                    recipe={recipe}
+                    setSelectedId={setSelectedId}
+                />
             ))}
         </div>
     );
 }
 
-function RecipeCard({ recipe }) {
+function RecipeCard(props) {
+    const { recipe, setSelectedId } = props;
     return (
-        <div className="bg-white dark:bg-gray-800 transition-all duration-300 rounded-xl overflow-hidden shadow-md hover:shadow-lg">
+        <div
+            onClick={() => {
+                setSelectedId(recipe.id);
+            }}
+            className="cursor-pointer hover:scale-105 bg-white dark:bg-gray-800 transition-all duration-300 rounded-xl overflow-hidden shadow-md hover:shadow-lg"
+        >
             <img
                 src={recipe.img}
                 alt={recipe.title}
@@ -53,9 +64,7 @@ function RecipeCard({ recipe }) {
                 </div>
 
                 <button
-                    onClick={() =>
-                        window.open(recipe.sourceUrl || "#", "_blank")
-                    }
+                    onClick={() => setSelectedId(recipe.id)}
                     className="mt-3 w-full bg-emerald-500 hover:bg-emerald-600 text-white py-2 rounded-lg transition"
                 >
                     Ver receta
